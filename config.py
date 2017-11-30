@@ -17,9 +17,13 @@ class Config:
 
     # BOARD
     IMAGE_GRASS = "img/grass.png"
-    IMAGE_PATH = "img/path.png"
+    IMAGE_PATH1 = "img/path1.png"
+    IMAGE_PATH2 = "img/path2.png"
+    IMAGE_PATH3 = "img/path3.png"
+    IMAGE_PATH4 = "img/path4.png"
+    IMAGE_PATH5 = "img/path5.png"
+    IMAGE_PATH6 = "img/path6.png"
+
     IMAGE_START = "img/start.png"
     IMAGE_FINISH = "img/finish.png"
-
-    # ENEMY
-    IMAGE_ENEMY = "img/enemy.png"
+    GAME_WINDOW = "img/fundo_jogo.png"

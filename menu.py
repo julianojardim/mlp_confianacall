@@ -100,9 +100,13 @@ class Menu:
         self._exit_menu = True
         jogo = game.Game()
         jogo.start()
+        jogo.display_game()
+        mapa = board.Board()
+        mapa.draw_board(jogo.get_display(), 1)
         while not jogo.get_exit_game():
-            mapa = board.Board()
-            mapa.draw_board(jogo.get_display(), 1)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    jogo.set_exit_game()
             jogo.update()
 
 
@@ -112,8 +116,8 @@ class Menu:
     def _create_map_option(self):
         pass
 
-    def _exit_game_option(self):
-        self._exitGame = True
+    def _exit_menu_option(self):
+        self._exit_menu = True
 
     def start(self):
         pygame.init()
@@ -125,6 +129,6 @@ class Menu:
                 self._option_select()
                 self._option_collide()
                 if event.type == pygame.QUIT:
-                    self._exitGame = True
+                    self._exit_menu = True
             self._update_screen()
             pygame.display.update()

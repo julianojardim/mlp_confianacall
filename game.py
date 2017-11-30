@@ -10,6 +10,7 @@ class Game:
         self._FPS = 0
         self._display = 0
         self._clock = 0
+        self._background_image = pygame.image.load(config.Config.GAME_WINDOW)
 
     def set_exit_game(self):
         self._exit_game = True
@@ -44,6 +45,9 @@ class Game:
         pygame.display.set_caption("Py.defense")
         self._clock = pygame.time.Clock()
         pygame.time.set_timer(pygame.USEREVENT + 1, 1000)  # 1 second is 1000 milliseconds
+
+    def display_game(self):
+        self._display.blit(self._background_image, (0, 0))
 
 
     def update(self):
