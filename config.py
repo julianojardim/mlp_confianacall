@@ -27,3 +27,6 @@ class Config:
     IMAGE_START = "img/start.png"
     IMAGE_FINISH = "img/finish.png"
     GAME_WINDOW = "img/fundo_jogo.png"
+
+    # ENEMY
+    IMAGE_ENEMY = "img/enemy.png"
