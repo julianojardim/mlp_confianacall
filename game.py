@@ -1,6 +1,6 @@
 import pygame
 import config
-import menu
+import board
 
 
 class Game:
@@ -40,10 +40,11 @@ class Game:
 
     def start(self):
         pygame.init()
-        self._display = pygame.display.set_mode((config.Config.MENU_WIDTH, config.Config.MENU_HEIGHT))
-        pygame.display.set_caption("Tower Defense")
+        self._display = pygame.display.set_mode((config.Config.MENU_WIDTH, config.Config.MENU_HEIGHT+200))
+        pygame.display.set_caption("Py.defense")
         self._clock = pygame.time.Clock()
         pygame.time.set_timer(pygame.USEREVENT + 1, 1000)  # 1 second is 1000 milliseconds
+
 
     def update(self):
         pygame.display.update()
@@ -59,3 +60,6 @@ class Game:
         font = pygame.font.SysFont(None, 25)
         text = font.render("FPS = %.2f" % fps, True, (0,0,0))
         display.blit(text, (0, 0))
+
+novo_jogo = Game()
+novo_jogo.start()

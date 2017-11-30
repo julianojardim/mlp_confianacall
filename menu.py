@@ -1,6 +1,7 @@
 import pygame
 import config
-
+import game
+import board
 
 class Menu:
     def __init__(self):
@@ -10,6 +11,7 @@ class Menu:
         self._collide_quick_game = False
         self._collide_create_map = False
         self._collide_exit_game = False
+        self._exit_menu = False
 
     def _display_text(self):
         pass
@@ -95,7 +97,14 @@ class Menu:
             self._collide_exit_game = False
 
     def _new_game_option(self):
-        pass
+        self._exit_menu = True
+        jogo = game.Game()
+        jogo.start()
+        while not jogo.get_exit_game():
+            mapa = board.Board()
+            mapa.draw_board(jogo.get_display(), 1)
+            jogo.update()
+
 
     def _quick_game_option(self):
         pass
@@ -111,7 +120,7 @@ class Menu:
         self._display = pygame.display.set_mode((config.Config.MENU_WIDTH, config.Config.MENU_HEIGHT))
         pygame.display.set_caption("Main Menu")
 
-        while not self._exitGame:
+        while not self._exit_menu:
             for event in pygame.event.get():
                 self._option_select()
                 self._option_collide()

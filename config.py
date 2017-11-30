@@ -14,3 +14,9 @@ class Config:
 
     # TITLE
     TITLE_IMAGE = "img/py_defense.png"
+
+    # BOARD
+    IMAGE_GRASS = "img/grass.png"
+    IMAGE_PATH = "img/path.png"
+    IMAGE_START = "img/start.png"
+    IMAGE_FINISH = "img/finish.png"
