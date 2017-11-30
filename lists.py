@@ -4,7 +4,7 @@ empty = []
 
 
 def first(one_list):
-        return one_list[0]
+    return one_list[0]
 
 
 def second(one_list):
