@@ -1,9 +1,9 @@
 from mlp import block
 
 
-class Enemie(block.Block):
+class Enemy(block.Block):
     def __init__(self, position, width, height, image, health, speed, earn_money, life_damage, first_dir, multiplier):
-        super(Enemie, self).__init__(position, width, height, image)
+        super(Enemy, self).__init__(position, width, height, image)
         self._health = health * multiplier
         self._speed = speed
         self._start_speed = speed

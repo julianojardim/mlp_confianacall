@@ -20,3 +20,6 @@ class Config:
     IMAGE_PATH = "img/path.png"
     IMAGE_START = "img/start.png"
     IMAGE_FINISH = "img/finish.png"
+
+    # ENEMY
+    IMAGE_ENEMY = "img/enemy.png"
