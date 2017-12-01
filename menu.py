@@ -72,7 +72,7 @@ class Menu:
         if pygame.mouse.get_pressed() == (1, 0, 0) and (275 < x < 525)and(400 < y < 460):
             self._create_map_option()
         if pygame.mouse.get_pressed() == (1, 0, 0) and (275 < x < 525)and(475 < y < 535):
-            self._exit_menu_option()
+            self._exit_game_option()
 
     def _option_collide(self):
         x, y = pygame.mouse.get_pos()
@@ -103,6 +103,7 @@ class Menu:
         jogo.display_game()
         mapa = board.Board()
         mapa.draw_board(jogo.get_display(), 1)
+        jogo.start_wave()
         while not jogo.get_exit_game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

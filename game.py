@@ -1,7 +1,7 @@
 import pygame
 import config
 import board
-
+import enemie
 
 class Game:
     def __init__(self):
@@ -11,6 +11,7 @@ class Game:
         self._display = 0
         self._clock = 0
         self._background_image = pygame.image.load(config.Config.GAME_WINDOW)
+        self._enemie_image = pygame.image.load(config.Config.IMAGE_GRASS)
 
     def set_exit_game(self):
         self._exit_game = True
@@ -45,6 +46,11 @@ class Game:
         pygame.display.set_caption("Py.defense")
         self._clock = pygame.time.Clock()
         pygame.time.set_timer(pygame.USEREVENT + 1, 1000)  # 1 second is 1000 milliseconds
+
+    def start_wave(self):
+        inimigo = enemie.Enemie((100, 60),40,40,config.Config.IMAGE_GRASS, 100, 1, 100, 20, 1, 1)
+        inimigo.set_display(self._display)
+        inimigo.wave(inimigo.get_flag_list())
 
     def display_game(self):
         self._display.blit(self._background_image, (0, 0))
