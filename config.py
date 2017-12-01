@@ -1,4 +1,23 @@
 class Config:
+
+    # COLORS
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    CK = (255, 0, 0)
+    COLLIDE_COLOR = (255, 150, 0)
+    NOT_COLLIDE_COLOR = (0, 255, 0)
+
+    # MISC
+    MOUSE_CIRCLE_SURFACE = (480, 480)
+    FPS = 100
+
+    # PLAYER
+    PLAYER_CASH = 400
+    PLAYER_LIFE = 30
+
+
     # MENU
     MENU_BACK_IMAGE = "img/fundo.png"
     MENU_OPTION_NEW_GAME = "img/novo_jogo.png"
@@ -30,3 +49,13 @@ class Config:
 
     # ENEMY
     IMAGE_ENEMY = "img/enemy.png"
+
+    #TOWER
+    TOWER_IMAGE_small = "img/tower.png"
+    TOWER_WIDTH = 32
+    TOWER_HEIGHT = 32
+    TOWER_RANGE = 80
+    TOWER_DAMAGE = 10
+    TOWER_FIRERATE = 0.5
+    TOWER_PRICE = 100
+    TOWER_BUY_POS = (567, 13)
