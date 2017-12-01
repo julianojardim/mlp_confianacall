@@ -72,7 +72,7 @@ class Menu:
         if pygame.mouse.get_pressed() == (1, 0, 0) and (275 < x < 525)and(400 < y < 460):
             self._create_map_option()
         if pygame.mouse.get_pressed() == (1, 0, 0) and (275 < x < 525)and(475 < y < 535):
-            self._exit_game_option()
+            self._exit_menu_option()
 
     def _option_collide(self):
         x, y = pygame.mouse.get_pos()
