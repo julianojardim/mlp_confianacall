@@ -1,21 +1,28 @@
 import pygame, sys
 from pygame.locals import *
+import math
 
 #Set up pygame.
 pygame.init()
 mainClock = pygame.time.Clock()
 
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
 #Set up the window.
-windowSurface = pygame.display.set_mode((500,400),0, 32) #last param, depth = 32
-pygame.display.set_caption("Hello World!")
+windowSurface = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT),0, 32) #last param, depth = 32
+pygame.display.set_caption("Tower Defense")
 
 #Set up the colors.
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-GREEN = (0,255,0)
+GREEN = (0,200,0)
 BLUE = (0,0,255)
+ORANGE = (255, 125, 0)
+CYAN = (0, 255, 255)
+BROWN = (200, 125, 100)
 
 #Set up the fonts.
 basicFont = pygame.font.SysFont(None, 48)
@@ -59,38 +66,79 @@ pygame.draw.rect(windowSurface, RED, (0,0, 10, 10))
 
 #Draw the window onto the screen.
 
+def distance(pos1, pos2):
+    p1x, p1y = pos1
+    p2x, p2y = pos2
+    x = p1x - p2x
+    y = p1y - p2y
+    result = math.sqrt(math.pow(x,2) + math.pow(y,2))
+    return result
+
+MOVE_SPEED = 5
 
 #trail
-point0 =      (0,0)
-point1 =      (50, 0)
-point2 =      (50, 50)
-point3 =      (0, 50)
-point4 =      (0, 100)
-point5 =      (50, 100)
-point6 =      (50, 150)
-point7 =      (100, 150)
-point8 =      (100, 100)
-point9 =      (80, 100)
-point10 =     (80, 80)
-point11 =     (100, 120)
-point_final = (100,0)
+point0 =          (0,0)
+point1 =          (200, 0)
+point2 =          (200, 200)
+point3 =          (0, 200)
+point4 =          (0, 500)
+point5 =          (500,500)
+point6 =          (500, 300)
+point7 =          (300,300)
+point8 =          (300,400)
+point9 =          (600,400)
+point_final =     (600,0)
 
-trail = [point1, point2, point3, point4, point5, point6, point7, point8, point9, point10, point11, point_final]
-trail_direction = ['r', 'd', 'l', 'd', 'r', 'd', 'r', 'u', 'l', 'u', 'r', 'u']
+
+
+
+trail = [point1, point2, point3, point4, point5, point6, point7, point8, point9, point_final]
+trail0 = [point0] + trail
+
+# def make_trail_direction():
+    
+# trail_direction = list(map(make_trail_direction, trail0)) 
+
+trail_direction = ['r', 'd', 'l', 'd', 'r', 'u', 'l','d', 'r', 'u']
+ROAD_WIDTH = 30
+
+#Rect((left, top), (width, height))
+
+def make_trail_drawing(i):
+    if trail_direction[i] == 'l':
+        return pygame.Rect(trail0[i+1], (distance(trail0[i], trail0[i+1]) + ROAD_WIDTH, ROAD_WIDTH) )
+    elif trail_direction[i] == 'd':
+        return pygame.Rect(trail0[i], (ROAD_WIDTH, distance(trail0[i], trail0[i+1]) ) )
+    elif trail_direction[i] == 'r':
+        return pygame.Rect(trail0[i], (distance(trail0[i], trail0[i+1]), ROAD_WIDTH) )
+    elif trail_direction[i] == 'u':
+        return pygame.Rect(trail0[i+1], (ROAD_WIDTH, distance(trail0[i], trail0[i+1]) + ROAD_WIDTH ))
+
+trail_drawings_list = [make_trail_drawing(i) for i in range(len(trail))]
+
+
 
 DOWNRIGHT = 0
+ENEMY_SIZE = 20
 
-enemy = {'rect': pygame.Rect(0, 0, 30, 20),
+enemy = {'rect': pygame.Rect(0, 0, ENEMY_SIZE, ENEMY_SIZE),
       'color': GREEN,
       'dir': DOWNRIGHT,
-      'trail_point': 0
+      'trail_point': 0,
+      'health': 200
       }
+
+enemy_list = [enemy]
+
+TOWER_SIZE = 10
+TOWER_RANGE = 50
+TOWER_DAMAGE = 10
 
 tower_list = []
 
 
 
-MOVE_SPEED = 1
+
 
 def update_enemy_path(enemy):
     
@@ -140,9 +188,60 @@ def update_enemy_position(enemy):
     elif enemy_direction == 'u':
         enemy['rect'].top -= MOVE_SPEED
 
-def update_enemy(enemy):
-    update_enemy_path(enemy)
-    update_enemy_position(enemy)
+def update_enemy():
+    for enemy in enemy_list[:]:
+        update_enemy_path(enemy)
+        update_enemy_position(enemy)
+        if enemy['health'] <= 0:
+            enemy_list.remove(enemy)
+    
+
+
+def distance(pos1, pos2):
+    p1x, p1y = pos1
+    p2x, p2y = pos2
+    x = p1x - p2x
+    y = p1y - p2y
+    result = math.sqrt(math.pow(x,2) + math.pow(y,2))
+    return result
+
+laser_list = []
+
+def attack_tower():
+    for tower in tower_list:
+        tower_pos = tower['rect'].center
+        for enemy in enemy_list:
+            enemy_pos = enemy['rect'].center
+            if (distance(enemy_pos, tower_pos) <= TOWER_RANGE):
+                laser = (tower_pos, enemy_pos)
+                laser_list.append(laser)
+                enemy['health'] -= TOWER_DAMAGE
+                
+def draw_trail():
+    for trail_drawing in trail_drawings_list:
+        pygame.draw.rect(windowSurface, BROWN, trail_drawing)
+
+
+def draw_enemies():
+    for enemy in enemy_list:
+        pygame.draw.rect(windowSurface, RED, enemy['rect'])
+    
+
+def draw_towers():
+    for tower in tower_list:
+        pygame.draw.rect(windowSurface, CYAN, tower['rect'])
+
+def draw_lasers():
+    while laser_list:
+        p1,p2 = laser_list.pop()
+        pygame.draw.line(windowSurface, ORANGE, p1, p2, 4)        
+
+def draw():
+    draw_trail()
+    draw_enemies()
+    draw_towers()
+    draw_lasers()
+
 
 #Run the game loop.
 while True:
@@ -150,10 +249,13 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        # if event.type == MOUSEBUTTONUP:
-        #     foods.append(pygame.Rect(event.pos[0], event.pos[1], FOODSIZE, FOODSIZE))
-    update_enemy(enemy)
-    windowSurface.fill(WHITE)
-    pygame.draw.rect(windowSurface, RED, enemy['rect'])
+        if event.type == MOUSEBUTTONUP:
+            tower = {}
+            tower['rect'] = pygame.Rect(event.pos[0], event.pos[1], TOWER_SIZE, TOWER_SIZE)
+            tower_list.append(tower)
+    update_enemy()
+    attack_tower()
+    windowSurface.fill(GREEN)
+    draw()
     pygame.display.update()
     mainClock.tick(40)
